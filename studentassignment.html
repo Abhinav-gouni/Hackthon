@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assignments Dashboard</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="studentassignment.css">
+</head>
+<body>
+    <!-- SIDEBAR NAVIGATION - Same as Student Dashboard -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-graduation-cap"></i>
+            <div>
+                <h2>AcademiFlow</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <!-- Student Profile in Sidebar -->
+        <div class="profile-section">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <h4>John Doe</h4>
+                <p>STD2024001</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="student.html" class="nav-link"><i class="fas fa-chart-pie"></i> Student dashboard</a></li>
+            <li class="nav-item"><a href="studattend.html" class="nav-link"><i class="fas fa-calendar-check"></i> Student attendance</a></li>
+            <li class="nav-item"><a href="assignments.html" class="nav-link active"><i class="fas fa-pencil-alt"></i> Student assignments</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-trophy"></i> Student cgpa</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-rocket"></i> Student career</a></li>
+        </ul>
+
+        <div class="nav-divider">OVERVIEW</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <i class="fas fa-compass"></i> Assignments Dashboard
+            </div>
+            <div class="date-badge">
+                <i class="far fa-calendar-alt"></i> March 2025
+            </div>
+        </div>
+
+        <!-- Subject Filter Dropdown -->
+        <div class="filter-section">
+            <div class="filter-container">
+                <label for="subjectSelect"><i class="fas fa-filter"></i> Select Subject:</label>
+                <select id="subjectSelect" class="subject-dropdown" onchange="filterAssignments()">
+                    <option value="all">All Subjects</option>
+                    <option value="Mathematics">Mathematics (MTH101)</option>
+                    <option value="Physics">Physics (PHY102)</option>
+                    <option value="Computer Science">Computer Science (CS201)</option>
+                    <option value="Digital Logic">Digital Logic (DL203)</option>
+                    <option value="English">English (ENG104)</option>
+                    <option value="Data Structures">Data Structures (CS205)</option>
+                </select>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Total</span>
+                    <span class="quick-stat-value" id="totalCount">24</span>
+                </div>
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Pending</span>
+                    <span class="quick-stat-value" id="pendingCount">10</span>
+                </div>
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Completed</span>
+                    <span class="quick-stat-value" id="completedCount">8</span>
+                </div>
+                <div class="quick-stat-item">
+                    <span class="quick-stat-label">Delayed</span>
+                    <span class="quick-stat-value" id="delayedCount">6</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card pending-card">
+                <div class="summary-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="summary-details">
+                    <span class="summary-label">Pending Assignments</span>
+                    <span class="summary-number" id="pendingNumber">10</span>
+                </div>
+            </div>
+            <div class="summary-card completed-card">
+                <div class="summary-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="summary-details">
+                    <span class="summary-label">Completed</span>
+                    <span class="summary-number" id="completedNumber">8</span>
+                </div>
+            </div>
+            <div class="summary-card delayed-card">
+                <div class="summary-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="summary-details">
+                    <span class="summary-label">Delayed</span>
+                    <span class="summary-number" id="delayedNumber">6</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignments Sections -->
+        <div class="assignments-container">
+            <!-- Pending Assignments -->
+            <div class="assignment-section">
+                <div class="section-header pending-header">
+                    <h3><i class="fas fa-hourglass-half"></i> Pending Assignments</h3>
+                    <span class="section-count" id="pendingSectionCount">10</span>
+                </div>
+                <div class="assignment-list" id="pendingList">
+                    <!-- Dynamically filled by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Completed Assignments -->
+            <div class="assignment-section">
+                <div class="section-header completed-header">
+                    <h3><i class="fas fa-check-circle"></i> Completed Assignments</h3>
+                    <span class="section-count" id="completedSectionCount">8</span>
+                </div>
+                <div class="assignment-list" id="completedList">
+                    <!-- Dynamically filled by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Delayed Assignments -->
+            <div class="assignment-section">
+                <div class="section-header delayed-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Delayed Assignments</h3>
+                    <span class="section-count" id="delayedSectionCount">6</span>
+                </div>
+                <div class="assignment-list" id="delayedList">
+                    <!-- Dynamically filled by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <i class="fas fa-info-circle"></i> Select subject from dropdown to filter assignments
+        </div>
+    </main>
+
+    <script>
+        // Assignment Data
+        const assignments = [
+            // Mathematics
+            { id: 1, title: "Calculus Problem Set", subject: "Mathematics", subjectCode: "MTH101", dueDate: "2025-03-10", status: "pending", description: "Solve 20 problems from chapter 5" },
+            { id: 2, title: "Linear Algebra Assignment", subject: "Mathematics", subjectCode: "MTH101", dueDate: "2025-03-05", status: "delayed", description: "Matrix operations and eigenvectors" },
+            { id: 3, title: "Integration Worksheet", subject: "Mathematics", subjectCode: "MTH101", dueDate: "2025-02-28", status: "completed", description: "Definite and indefinite integrals" },
+            { id: 4, title: "Differential Equations", subject: "Mathematics", subjectCode: "MTH101", dueDate: "2025-03-15", status: "pending", description: "First order differential equations" },
+            
+            // Physics
+            { id: 5, title: "Mechanics Lab Report", subject: "Physics", subjectCode: "PHY102", dueDate: "2025-03-08", status: "pending", description: "Report on pendulum experiment" },
+            { id: 6, title: "Optics Assignment", subject: "Physics", subjectCode: "PHY102", dueDate: "2025-03-01", status: "completed", description: "Lens and mirror problems" },
+            { id: 7, title: "Thermodynamics Problems", subject: "Physics", subjectCode: "PHY102", dueDate: "2025-03-12", status: "pending", description: "Heat transfer and laws of thermodynamics" },
+            { id: 8, title: "Quantum Physics Quiz", subject: "Physics", subjectCode: "PHY102", dueDate: "2025-03-03", status: "delayed", description: "Basic quantum mechanics concepts" },
+            
+            // Computer Science
+            { id: 9, title: "Python Programming", subject: "Computer Science", subjectCode: "CS201", dueDate: "2025-03-09", status: "pending", description: "Write programs using loops and functions" },
+            { id: 10, title: "Data Structures Lab", subject: "Computer Science", subjectCode: "CS201", dueDate: "2025-02-25", status: "completed", description: "Implementation of linked lists" },
+            { id: 11, title: "Algorithm Analysis", subject: "Computer Science", subjectCode: "CS201", dueDate: "2025-03-14", status: "pending", description: "Sorting and searching algorithms" },
+            { id: 12, title: "Database Assignment", subject: "Computer Science", subjectCode: "CS201", dueDate: "2025-03-02", status: "delayed", description: "SQL queries and normalization" },
+            
+            // Digital Logic
+            { id: 13, title: "Boolean Algebra", subject: "Digital Logic", subjectCode: "DL203", dueDate: "2025-03-07", status: "pending", description: "Simplify Boolean expressions" },
+            { id: 14, title: "Circuit Design", subject: "Digital Logic", subjectCode: "DL203", dueDate: "2025-02-27", status: "completed", description: "Design combinational circuits" },
+            { id: 15, title: "Flip Flops Assignment", subject: "Digital Logic", subjectCode: "DL203", dueDate: "2025-03-11", status: "pending", description: "Sequential circuits using flip flops" },
+            { id: 16, title: "K-Map Problems", subject: "Digital Logic", subjectCode: "DL203", dueDate: "2025-03-04", status: "delayed", description: "Karnaugh map simplification" },
+            
+            // English
+            { id: 17, title: "Essay Writing", subject: "English", subjectCode: "ENG104", dueDate: "2025-03-06", status: "completed", description: "Write an essay on climate change" },
+            { id: 18, title: "Grammar Exercises", subject: "English", subjectCode: "ENG104", dueDate: "2025-03-13", status: "pending", description: "Complete chapters 5-7 exercises" },
+            { id: 19, title: "Literature Review", subject: "English", subjectCode: "ENG104", dueDate: "2025-03-01", status: "completed", description: "Review of Shakespeare's plays" },
+            
+            // Data Structures
+            { id: 20, title: "Tree Implementation", subject: "Data Structures", subjectCode: "CS205", dueDate: "2025-03-08", status: "pending", description: "Implement binary search tree" },
+            { id: 21, title: "Graph Algorithms", subject: "Data Structures", subjectCode: "CS205", dueDate: "2025-03-15", status: "pending", description: "BFS and DFS implementation" },
+            { id: 22, title: "Stack and Queue", subject: "Data Structures", subjectCode: "CS205", dueDate: "2025-02-26", status: "completed", description: "Array implementation of stack and queue" },
+            { id: 23, title: "Hash Table Assignment", subject: "Data Structures", subjectCode: "CS205", dueDate: "2025-03-05", status: "delayed", description: "Implement hash table with collision handling" },
+            { id: 24, title: "Sorting Algorithms", subject: "Data Structures", subjectCode: "CS205", dueDate: "2025-03-02", status: "delayed", description: "Quick sort and merge sort implementation" }
+        ];
+
+        // Load assignments on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            filterAssignments();
+        });
+
+        // Filter assignments based on selected subject
+        function filterAssignments() {
+            const selectedSubject = document.getElementById('subjectSelect').value;
+            
+            let filteredAssignments = assignments;
+            if (selectedSubject !== 'all') {
+                filteredAssignments = assignments.filter(a => a.subject === selectedSubject);
+            }
+            
+            // Update counts
+            const pending = filteredAssignments.filter(a => a.status === 'pending');
+            const completed = filteredAssignments.filter(a => a.status === 'completed');
+            const delayed = filteredAssignments.filter(a => a.status === 'delayed');
+            
+            // Update quick stats
+            document.getElementById('totalCount').textContent = filteredAssignments.length;
+            document.getElementById('pendingCount').textContent = pending.length;
+            document.getElementById('completedCount').textContent = completed.length;
+            document.getElementById('delayedCount').textContent = delayed.length;
+            
+            // Update summary cards
+            document.getElementById('pendingNumber').textContent = pending.length;
+            document.getElementById('completedNumber').textContent = completed.length;
+            document.getElementById('delayedNumber').textContent = delayed.length;
+            
+            // Update section counts
+            document.getElementById('pendingSectionCount').textContent = pending.length;
+            document.getElementById('completedSectionCount').textContent = completed.length;
+            document.getElementById('delayedSectionCount').textContent = delayed.length;
+            
+            // Render assignment lists
+            renderAssignmentList('pendingList', pending, 'pending');
+            renderAssignmentList('completedList', completed, 'completed');
+            renderAssignmentList('delayedList', delayed, 'delayed');
+        }
+
+        // Render assignment list
+        function renderAssignmentList(containerId, assignments, status) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (assignments.length === 0) {
+                container.innerHTML = `<div class="empty-message">
+                    <i class="fas fa-inbox"></i>
+                    <p>No ${status} assignments</p>
+                </div>`;
+                return;
+            }
+            
+            assignments.forEach(assignment => {
+                const dueDate = new Date(assignment.dueDate);
+                const today = new Date();
+                const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                const card = document.createElement('div');
+                card.className = `assignment-card ${status}-card`;
+                
+                let statusBadge = '';
+                if (status === 'pending') {
+                    statusBadge = `<span class="status-badge pending-badge"><i class="fas fa-clock"></i> Due in ${daysLeft} days</span>`;
+                } else if (status === 'completed') {
+                    statusBadge = `<span class="status-badge completed-badge"><i class="fas fa-check"></i> Completed</span>`;
+                } else {
+                    statusBadge = `<span class="status-badge delayed-badge"><i class="fas fa-exclamation"></i> Delayed by ${Math.abs(daysLeft)} days</span>`;
+                }
+                
+                card.innerHTML = `
+                    <div class="assignment-header">
+                        <h4>${assignment.title}</h4>
+                        ${statusBadge}
+                    </div>
+                    <div class="assignment-subject">
+                        <span class="subject-tag" style="background: ${getSubjectColor(assignment.subject)}20; color: ${getSubjectColor(assignment.subject)}">
+                            <i class="fas ${getSubjectIcon(assignment.subject)}"></i> ${assignment.subject} (${assignment.subjectCode})
+                        </span>
+                    </div>
+                    <p class="assignment-description">${assignment.description}</p>
+                    <div class="assignment-footer">
+                        <span class="due-date"><i class="far fa-calendar-alt"></i> Due: ${formatDate(assignment.dueDate)}</span>
+                        <button class="action-btn ${status}-btn" onclick="handleAssignment('${assignment.id}')">
+                            ${status === 'pending' ? 'Submit' : status === 'completed' ? 'View' : 'Resubmit'}
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Helper function to get subject color
+        function getSubjectColor(subject) {
+            const colors = {
+                'Mathematics': '#2563eb',
+                'Physics': '#7c3aed',
+                'Computer Science': '#059669',
+                'Digital Logic': '#d97706',
+                'English': '#9333ea',
+                'Data Structures': '#ea580c'
+            };
+            return colors[subject] || '#64748b';
+        }
+
+        // Helper function to get subject icon
+        function getSubjectIcon(subject) {
+            const icons = {
+                'Mathematics': 'fa-calculator',
+                'Physics': 'fa-flask',
+                'Computer Science': 'fa-laptop-code',
+                'Digital Logic': 'fa-microchip',
+                'English': 'fa-language',
+                'Data Structures': 'fa-sitemap'
+            };
+            return icons[subject] || 'fa-book';
+        }
+
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Handle assignment action (placeholder)
+        function handleAssignment(id) {
+            alert(`Assignment ${id} action triggered`);
+        }
+    </script>
+</body>
+</html>
