@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduTrack - PYQs</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{display:flex;background:#f3f6fb;}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+    width:280px;height:100vh;padding:30px 22px;
+    background:linear-gradient(180deg,#0f2b46 0%, #153a54 50%, #1d4c63 100%);
+    color:#e6f1ff;display:flex;flex-direction:column;
+}
+.sidebar-header{display:flex;align-items:center;gap:15px;margin-bottom:35px;}
+.logo-icon{background:rgba(255,255,255,0.08);padding:16px;border-radius:20px;}
+.logo-icon i{font-size:26px;color:#60a5fa;}
+.sidebar-header h2{font-size:22px;font-weight:700;color:white;}
+.sidebar-header span{font-size:13px;color:#9fbdd3;}
+
+.profile-card{
+    background:rgba(255,255,255,0.08);
+    padding:18px;border-radius:20px;
+    display:flex;align-items:center;gap:15px;
+    margin-bottom:35px;border:1px solid rgba(255,255,255,0.12);
+}
+.profile-icon{background:#2d4f6a;padding:12px;border-radius:50%;}
+.profile-icon i{font-size:28px;color:#93c5fd;}
+.profile-card h4{font-size:16px;font-weight:600;color:white;}
+.profile-card p{font-size:13px;color:#a8c9e6;}
+
+.nav-menu{list-style:none;padding:0;}
+.nav-menu li{margin-bottom:8px;}
+.nav-menu a{
+    display:flex;align-items:center;gap:14px;
+    padding:14px 18px;border-radius:18px;
+    text-decoration:none;color:#b6d0e3;font-weight:500;
+    transition:all 0.3s ease;
+}
+.nav-menu a:hover{
+    background:rgba(255,255,255,0.08);
+    transform:translateX(5px);color:white;
+}
+.nav-menu a.active{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    color:white;box-shadow:0 12px 25px rgba(37,99,235,0.5);
+}
+.divider{margin:30px 0 15px;font-size:12px;letter-spacing:1.5px;color:#7fa6c4;}
+
+/* ===== MAIN ===== */
+.main-content{flex:1;padding:35px;}
+.top-bar{display:flex;justify-content:space-between;margin-bottom:30px;}
+.page-title{font-size:26px;font-weight:600;}
+.date-badge{background:white;padding:8px 18px;border-radius:25px;}
+
+.card{
+    background:white;padding:30px;border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+    margin-bottom:30px;
+}
+.card h3{margin-bottom:25px;font-weight:600;}
+
+.form-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+.form-group{display:flex;flex-direction:column;}
+.form-group label{margin-bottom:8px;font-weight:500;}
+.form-group input,.form-group select{
+    padding:12px;border-radius:12px;
+    border:1px solid #dbe2ef;background:#f9fafc;
+}
+
+.btn-primary{
+    margin-top:20px;padding:12px 22px;border:none;
+    border-radius:12px;background:#2d66f6;
+    color:white;font-weight:500;cursor:pointer;
+}
+
+table{width:100%;border-collapse:collapse;}
+th,td{padding:16px;text-align:left;border-bottom:1px solid #e6eaf3;}
+th{background:#f7f9fc;font-weight:600;}
+
+.download-btn{
+    background:#22c55e;color:white;border:none;
+    padding:8px 14px;border-radius:8px;cursor:pointer;
+}
+.delete-btn{
+    background:#ef4444;color:white;border:none;
+    padding:8px 14px;border-radius:8px;cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="sidebar-header">
+        <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div><h2>EduTrack</h2><span>Student Portal</span></div>
+    </div>
+
+    <div class="profile-card">
+        <div class="profile-icon"><i class="fas fa-user"></i></div>
+        <div><h4>John Doe</h4><p>STD2024001</p></div>
+    </div>
+
+    <ul class="nav-menu">
+        <li><a href="#"><i class="fas fa-chart-pie"></i> Student dashboard</a></li>
+        <li><a href="#"><i class="fas fa-calendar-check"></i> Student attendance</a></li>
+        <li><a href="#"><i class="fas fa-pencil-alt"></i> Student assignments</a></li>
+        <li><a href="#"><i class="fas fa-trophy"></i> Student cgpa</a></li>
+        <li><a href="#"><i class="fas fa-rocket"></i> Student career</a></li>
+        <li><a href="#" class="active"><i class="fas fa-file-alt"></i> PYQs</a></li>
+    </ul>
+
+    <div class="divider">OVERVIEW</div>
+
+    <ul class="nav-menu">
+        <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
+        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+    </ul>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<div class="top-bar">
+    <div class="page-title">📚 Previous Year Questions</div>
+    <div class="date-badge">March 2025</div>
+</div>
+
+<!-- Add PYQ -->
+<div class="card">
+    <h3>Add New PYQ</h3>
+
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Subject</label>
+            <input type="text" id="subject">
+        </div>
+
+        <div class="form-group">
+            <label>Exam Type</label>
+            <select id="examType">
+                <option>Mid 1</option>
+                <option>Mid 2</option>
+                <option>Semester</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Year</label>
+            <input type="number" id="year">
+        </div>
+
+        <div class="form-group">
+            <label>Upload File</label>
+            <input type="file" id="fileInput">
+        </div>
+    </div>
+
+    <button type="button" class="btn-primary" onclick="addPYQ()">Add PYQ</button>
+</div>
+
+<!-- Table -->
+<div class="card">
+    <h3>Available PYQs</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Exam</th>
+                <th>Year</th>
+                <th>Download</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+</main>
+
+<script>
+let pyqs = JSON.parse(localStorage.getItem("pyqs")) || [];
+
+function addPYQ(){
+    const subject=document.getElementById("subject").value;
+    const exam=document.getElementById("examType").value;
+    const year=document.getElementById("year").value;
+    const fileInput=document.getElementById("fileInput");
+
+    if(!subject||!year||fileInput.files.length===0){
+        alert("Please fill all fields");
+        return;
+    }
+
+    const file=fileInput.files[0];
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+        const pyq={
+            subject,exam,year,
+            fileName:file.name,
+            fileData:e.target.result
+        };
+        pyqs.push(pyq);
+        localStorage.setItem("pyqs",JSON.stringify(pyqs));
+        renderTable();
+        clearForm();
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function renderTable(){
+    const tbody=document.querySelector("tbody");
+    tbody.innerHTML="";
+    pyqs.forEach((item,index)=>{
+        const row=document.createElement("tr");
+        row.innerHTML=`
+            <td>${item.subject}</td>
+            <td>${item.exam}</td>
+            <td>${item.year}</td>
+            <td><button class="download-btn" onclick="downloadFile(${index})">Download</button></td>
+            <td><button class="delete-btn" onclick="deletePYQ(${index})">Delete</button></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function downloadFile(index){
+    const item=pyqs[index];
+    const link=document.createElement("a");
+    link.href=item.fileData;
+    link.download=item.fileName;
+    link.click();
+}
+
+function deletePYQ(index){
+    pyqs.splice(index,1);
+    localStorage.setItem("pyqs",JSON.stringify(pyqs));
+    renderTable();
+}
+
+function clearForm(){
+    document.getElementById("subject").value="";
+    document.getElementById("year").value="";
+    document.getElementById("fileInput").value="";
+}
+
+renderTable();
+</script>
+
+</body>
+</html>
