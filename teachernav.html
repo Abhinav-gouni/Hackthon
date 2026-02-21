@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcademiFlow - Academic Command Center</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="teachernav.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>
+                    <i class="fas fa-book-open"></i>
+                    AcademiFlow
+                </h1>
+                <p id="role-title">Teacher Command Center</p>
+            </div>
+            
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <!-- Nav items will be dynamically populated -->
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <h4>Dr. Sarah Johnson</h4>
+                        <p>Professor</p>
+                    </div>
+                    <div class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <div class="header-actions">
+                    <div class="role-selector">
+                        <button class="role-btn active" onclick="switchRole('teacher')">Teacher</button>
+                        <button class="role-btn" onclick="switchRole('student')">Student</button>
+                    </div>
+                    
+                    <div class="notification-badge">
+                        <i class="far fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area" id="contentArea">
+                <!-- Content will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Topic Modal -->
+    <div class="modal" id="addTopicModal">
+        <div class="modal-content">
+            <h3>Add New Topic</h3>
+            <input type="text" id="topicName" placeholder="Enter topic name">
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn-primary" onclick="addTopic()">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Assignment Modal -->
+    <div class="modal" id="addAssignmentModal">
+        <div class="modal-content">
+            <h3>Create New Assignment</h3>
+            <input type="text" id="assignmentTitle" placeholder="Assignment title">
+            <select id="assignmentSubject">
+                <option value="">Select Subject</option>
+                <option value="CS201">Data Structures (CS201)</option>
+                <option value="CS301">Algorithms (CS301)</option>
+                <option value="CS202">Database Systems (CS202)</option>
+            </select>
+            <input type="date" id="assignmentDueDate">
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeAssignmentModal()">Cancel</button>
+                <button class="btn-primary" onclick="createAssignment()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="teachernav.js"></script>
+</body>
+</html>
