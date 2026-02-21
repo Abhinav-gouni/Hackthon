@@ -21,26 +21,9 @@ body{
     justify-content:center;
     align-items:center;
     background: linear-gradient(135deg, #141e30, #243b55);
-    overflow:hidden;
 }
 
-/* Floating background animation */
-body::before{
-    content:"";
-    position:absolute;
-    width:600px;
-    height:600px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
-    top:-100px;
-    left:-100px;
-    animation: float 6s ease-in-out infinite alternate;
-}
-
-@keyframes float{
-    0%{transform:translateY(0px);}
-    100%{transform:translateY(40px);}
-}
-
+/* Container */
 .container{
     width:90%;
     max-width:950px;
@@ -51,7 +34,6 @@ body::before{
     backdrop-filter: blur(20px);
     background: rgba(255,255,255,0.08);
     box-shadow:0 20px 40px rgba(0,0,0,0.4);
-    transition:0.5s ease;
 }
 
 /* LEFT PANEL */
@@ -65,22 +47,11 @@ body::before{
     align-items:center;
     padding:40px;
     text-align:center;
-    animation: slideLeft 1s ease;
-}
-
-@keyframes slideLeft{
-    from{opacity:0; transform:translateX(-50px);}
-    to{opacity:1; transform:translateX(0);}
 }
 
 .left h1{
     font-size:36px;
     margin-bottom:15px;
-}
-
-.left p{
-    font-size:15px;
-    opacity:0.9;
 }
 
 /* RIGHT PANEL */
@@ -91,12 +62,6 @@ body::before{
     flex-direction:column;
     justify-content:center;
     background:white;
-    animation: slideRight 1s ease;
-}
-
-@keyframes slideRight{
-    from{opacity:0; transform:translateX(50px);}
-    to{opacity:1; transform:translateX(0);}
 }
 
 .right h2{
@@ -104,7 +69,7 @@ body::before{
     color:#333;
 }
 
-/* INPUT */
+/* Inputs */
 .input-group{
     margin-bottom:15px;
 }
@@ -131,7 +96,7 @@ body::before{
     box-shadow:0 0 8px rgba(37,117,252,0.3);
 }
 
-/* Name row responsive */
+/* Name Row */
 .name-row{
     display:flex;
     gap:10px;
@@ -142,9 +107,9 @@ body::before{
     flex:1;
 }
 
-/* BUTTON */
+/* Button */
 button{
-   padding:12px;
+    padding:12px;
     border:none;
     border-radius:8px;
     background: linear-gradient(135deg,#6a11cb,#2575fc);
@@ -160,7 +125,7 @@ button:hover{
     box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* EXTRA */
+/* Links */
 .extra{
     margin-top:15px;
     font-size:13px;
@@ -168,44 +133,48 @@ button:hover{
 }
 
 .extra a{
-    text-decoration:none;
     color:#2575fc;
     font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.extra a:hover{
+    text-decoration:underline;
+    color:#6a11cb;
+}
+
+/* Forgot */
+.forgot{
+    text-align:right;
+    margin-top:-5px;
+    margin-bottom:10px;
+}
+
+.forgot a{
+    font-size:13px;
+    color:#2575fc;
     cursor:pointer;
 }
 
-/* Fade Animation */
-.fade{
-    animation: fadeIn 0.5s ease forwards;
+.forgot a:hover{
+    text-decoration:underline;
+    color:#6a11cb;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:scale(0.95);}
-    to{opacity:1; transform:scale(1);}
+/* Hide Sections */
+#registerForm, #forgotForm{
+    display:none;
 }
 
-/* Responsive */
 @media(max-width:768px){
     .container{
         flex-direction:column;
-        height:auto;
     }
-
-    .left{
-        padding:30px;
-    }
-
-    .right{
-        padding:30px;
-    }
-
     .name-row{
         flex-direction:column;
     }
-}
-
-#registerForm{
-    display:none;
 }
 </style>
 </head>
@@ -217,14 +186,12 @@ button:hover{
 <div class="left">
     <h1>AcademiFlow</h1>
     <p>The Integrated Student Command Center</p>
-    <br>
-    <p>Predict. Organize. Succeed.</p>
 </div>
 
 <div class="right">
 
 <!-- LOGIN -->
-<div id="loginForm" class="fade">
+<div id="loginForm">
     <h2>Login</h2>
 
     <div class="input-group">
@@ -244,6 +211,10 @@ button:hover{
     <div class="input-group">
         <label>Password</label>
         <input type="password" id="loginPassword">
+    </div>
+
+    <div class="forgot">
+        <a onclick="showForgot()">Forgot Password?</a>
     </div>
 
     <button onclick="login()">Login</button>
@@ -294,33 +265,43 @@ button:hover{
     </div>
 </div>
 
+<!-- FORGOT PASSWORD -->
+<div id="forgotForm">
+    <h2>Reset Password</h2>
+
+    <div class="input-group">
+        <label>Enter your Email</label>
+        <input type="email" id="forgotEmail">
+    </div>
+
+    <button onclick="resetPassword()">Send Reset Link</button>
+
+    <div class="extra">
+        Back to <a onclick="showLogin()">Login</a>
+    </div>
+</div>
+
 </div>
 </div>
 
 <script>
 
 function showRegister(){
-    const login = document.getElementById("loginForm");
-    const register = document.getElementById("registerForm");
-
-    login.style.display = "none";
-    register.style.display = "block";
-
-    register.classList.remove("fade");
-    void register.offsetWidth;
-    register.classList.add("fade");
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("forgotForm").style.display="none";
+    document.getElementById("registerForm").style.display="block";
 }
 
 function showLogin(){
-    const login = document.getElementById("loginForm");
-    const register = document.getElementById("registerForm");
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("forgotForm").style.display="none";
+    document.getElementById("loginForm").style.display="block";
+}
 
-    register.style.display = "none";
-    login.style.display = "block";
-
-    login.classList.remove("fade");
-    void login.offsetWidth;
-    login.classList.add("fade");
+function showForgot(){
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("forgotForm").style.display="block";
 }
 
 function login(){
@@ -354,19 +335,19 @@ function registerUser(){
 
     alert("Registration Successful!");
 
-    // Clear fields
-    document.getElementById("firstName").value = "";
-    document.getElementById("middleName").value = "";
-    document.getElementById("lastName").value = "";
-    document.getElementById("regEmail").value = "";
-    document.getElementById("regPassword").value = "";
-    document.getElementById("regConfirm").value = "";
-    document.getElementById("regRole").value = "";
+    showLogin();
+}
 
-    // Automatically switch back to login
-    setTimeout(() => {
-        showLogin();
-    }, 300);
+function resetPassword(){
+    const email = document.getElementById("forgotEmail").value;
+
+    if(email === ""){
+        alert("Please enter your email!");
+        return;
+    }
+
+    alert("Reset link sent! (Demo Mode)");
+    showLogin();
 }
 
 </script>
