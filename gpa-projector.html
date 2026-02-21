@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Projector | EduTrack</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- Link to external CSS file -->
+    <link href="stud.css" rel="stylesheet">
+    <style>
+        /* Additional styles for GPA projector - matching student.html theme */
+        .page-header {
+            background: linear-gradient(135deg, #0b1e33 0%, #132b44 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        /* Stats Cards - matching student.html card style */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 30px -12px rgba(0, 35, 70, 0.1);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px -15px #1e3a8a40;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: #eef4ff;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon i {
+            font-size: 1.6rem;
+            color: #2563eb;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f2b45;
+            line-height: 1.2;
+            margin: 0.5rem 0 0.25rem 0;
+        }
+
+        .stat-trend {
+            color: #059669;
+            background: #d1fae5;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Target Section */
+        .target-section {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 30px -12px rgba(0, 35, 70, 0.12);
+            border: 1px solid #e9eef3;
+        }
+
+        .target-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .target-header i {
+            color: #2563eb;
+            font-size: 1.3rem;
+        }
+
+        .target-header h3 {
+            color: #0f2b45;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .target-input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .target-input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .target-input label {
+            display: block;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .target-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .target-input input:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background: white;
+        }
+
+        .calculate-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calculate-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -8px #1e3a8a;
+        }
+
+        .calculate-btn i {
+            font-size: 1rem;
+        }
+
+        /* Required Marks Card */
+        .required-marks-card {
+            background: linear-gradient(135deg, #0b1e33 0%, #132b44 100%);
+            border-radius: 28px;
+            padding: 1.8rem;
+            margin-top: 1.5rem;
+            color: white;
+            display: none;
+        }
+
+        .required-marks-card.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .required-marks-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .marks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .mark-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mark-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .mark-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .mark-max {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Charts Row */
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            flex: 1 1 350px;
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 30px -10px #dce9fc;
+        }
+
+        .chart-container h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-container h3 i {
+            color: #2563eb;
+        }
+
+        canvas {
+            max-height: 250px;
+            width: 100% !important;
+        }
+
+        /* Subject Table */
+        .subject-table-section {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            margin: 2rem 0;
+            box-shadow: 0 15px 30px -12px rgba(0, 35, 70, 0.12);
+            border: 1px solid #e9eef3;
+        }
+
+        .subject-table-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f2b45;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #f1f5f9;
+            font-size: 1.1rem;
+        }
+
+        .subject-table-section h3 i {
+            color: #2563eb;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            background: #f8fafc;
+            color: #1e3a5f;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .grade-excellent {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .grade-good {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .grade-average {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .grade-poor {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .weak-subject {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Suggestions Section */
+        .suggestions-section {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            margin-top: 2rem;
+            box-shadow: 0 15px 30px -12px rgba(0, 35, 70, 0.12);
+            border: 1px solid #e9eef3;
+        }
+
+        .suggestions-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f2b45;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #f1f5f9;
+            font-size: 1.1rem;
+        }
+
+        .suggestions-section h3 i {
+            color: #2563eb;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 16px;
+            background: #f8fafc;
+            margin-bottom: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background: #eef4ff;
+        }
+
+        .suggestion-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .suggestion-icon i {
+            font-size: 1.2rem;
+        }
+
+        .suggestion-content {
+            flex: 1;
+        }
+
+        .suggestion-title {
+            font-weight: 600;
+            color: #0f2b45;
+            margin-bottom: 0.2rem;
+        }
+
+        .suggestion-desc {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR - STUDENT ROUTES (exactly matching student.html) -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-graduation-cap"></i>
+            <div>
+                <h2>EduTrack</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <!-- Student Profile in Sidebar - Dynamic -->
+        <div class="sidebar-profile">
+            <div class="profile-image">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name" id="sidebarStudentName">Loading...</div>
+                <div class="profile-id" id="sidebarStudentId">Loading...</div>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="student.html" class="nav-link"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+            <li class="nav-item"><a href="attendance-tracker.html" class="nav-link"><i class="fas fa-calendar-check"></i> Student attendance</a></li>
+            <li class="nav-item"><a href="gpa-projector.html" class="nav-link active"><i class="fas fa-star"></i> GPA projector</a></li>
+            <li class="nav-item"><a href="assignments-kanban.html" class="nav-link"><i class="fas fa-tasks"></i> Assignments</a></li>
+            <li class="nav-item"><a href="career-opportunities.html" class="nav-link"><i class="fas fa-briefcase"></i> Career</a></li>
+        </ul>
+
+        <div class="nav-divider">Overview</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+        
+        <!-- Logout Button -->
+        <div class="logout-section" style="margin-top: 20px; padding: 10px;">
+            <button id="logoutBtn" class="logout-btn" style="background: #dc2626; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <i class="fas fa-star"></i> GPA Projector
+            </div>
+            <div class="date-badge" id="currentDate">
+                <i class="far fa-calendar-alt"></i> Loading...
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2>
+                <i class="fas fa-chart-line"></i> CGPA Prediction & Goal Setting
+            </h2>
+            <p>Track your academic performance, predict your CGPA, and set achievable goals</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-label">Current CGPA</div>
+                <div class="stat-value" id="currentCGPA">8.6</div>
+                <span class="stat-trend">↑ 0.3 from last sem</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-label">Current Semester</div>
+                <div class="stat-value" id="currentSemester">3rd</div>
+                <span class="stat-trend">SGPA: <span id="currentSGPA">8.4</span></span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-label">Subjects to Focus</div>
+                <div class="stat-value" id="weakSubjects">2</div>
+                <span class="stat-trend">Need improvement</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-flag-checkered"></i>
+                </div>
+                <div class="stat-label">Credits Earned</div>
+                <div class="stat-value" id="creditsEarned">72</div>
+                <span class="stat-trend">of 120 total</span>
+            </div>
+        </div>
+
+        <!-- Target CGPA Section -->
+        <div class="target-section">
+            <div class="target-header">
+                <i class="fas fa-bullseye"></i>
+                <h3>Set Your Target CGPA</h3>
+            </div>
+            
+            <div class="target-input-group">
+                <div class="target-input">
+                    <label><i class="fas fa-crosshairs" style="margin-right: 5px;"></i> Target CGPA (out of 10)</label>
+                    <input type="number" id="targetCGPA" step="0.1" min="0" max="10" placeholder="e.g., 9.0">
+                </div>
+                <button class="calculate-btn" onclick="calculateRequiredMarks()">
+                    <i class="fas fa-calculator"></i> Calculate
+                </button>
+            </div>
+
+            <!-- Required Marks Display -->
+            <div class="required-marks-card" id="requiredMarksCard">
+                <h4>
+                    <i class="fas fa-clipboard-check"></i> Marks Required to Achieve Target CGPA
+                </h4>
+                <div class="marks-grid">
+                    <div class="mark-item">
+                        <div class="mark-label">Internal Exams</div>
+                        <div class="mark-value" id="requiredInternal">38</div>
+                        <div class="mark-max">out of 50</div>
+                    </div>
+                    <div class="mark-item">
+                        <div class="mark-label">External Exams</div>
+                        <div class="mark-value" id="requiredExternal">75</div>
+                        <div class="mark-max">out of 100</div>
+                    </div>
+                    <div class="mark-item">
+                        <div class="mark-label">Assignments</div>
+                        <div class="mark-value" id="requiredAssignments">22</div>
+                        <div class="mark-max">out of 25</div>
+                    </div>
+                    <div class="mark-item">
+                        <div class="mark-label">Overall</div>
+                        <div class="mark-value" id="requiredPercentage">85%</div>
+                        <div class="mark-max">to achieve target</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-row">
+            <div class="chart-container">
+                <h3><i class="fas fa-chart-pie"></i> Grade Distribution</h3>
+                <canvas id="gradeChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3><i class="fas fa-chart-bar"></i> Semester-wise CGPA</h3>
+                <canvas id="cgpaChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Subject-wise Marks Table -->
+        <div class="subject-table-section">
+            <h3><i class="fas fa-table"></i> Subject-wise Performance</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Internal (50)</th>
+                            <th>Mid-Term (30)</th>
+                            <th>Assignment (20)</th>
+                            <th>External (100)</th>
+                            <th>Total</th>
+                            <th>Grade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mathematics</strong> (MTH101)</td>
+                            <td>42</td>
+                            <td>25</td>
+                            <td>18</td>
+                            <td>82</td>
+                            <td><strong>167</strong></td>
+                            <td><span class="grade-badge grade-excellent">A</span></td>
+                            <td>✓ On Track</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Physics</strong> (PHY102)</td>
+                            <td>38</td>
+                            <td>22</td>
+                            <td>16</td>
+                            <td>78</td>
+                            <td><strong>154</strong></td>
+                            <td><span class="grade-badge grade-good">B+</span></td>
+                            <td>✓ On Track</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Computer Science</strong> (CS201)</td>
+                            <td>45</td>
+                            <td>28</td>
+                            <td>19</td>
+                            <td>91</td>
+                            <td><strong>183</strong></td>
+                            <td><span class="grade-badge grade-excellent">A+</span></td>
+                            <td>✓ On Track</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Digital Logic</strong> (DL203)</td>
+                            <td>32</td>
+                            <td>18</td>
+                            <td>14</td>
+                            <td>68</td>
+                            <td><strong>132</strong></td>
+                            <td><span class="grade-badge grade-average">C</span></td>
+                            <td><span class="weak-subject"><i class="fas fa-exclamation-circle"></i> Needs Improvement</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>English</strong> (ENG104)</td>
+                            <td>44</td>
+                            <td>26</td>
+                            <td>17</td>
+                            <td>85</td>
+                            <td><strong>172</strong></td>
+                            <td><span class="grade-badge grade-excellent">A</span></td>
+                            <td>✓ On Track</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Structures</strong> (CS205)</td>
+                            <td>40</td>
+                            <td>24</td>
+                            <td>15</td>
+                            <td>75</td>
+                            <td><strong>154</strong></td>
+                            <td><span class="grade-badge grade-good">B+</span></td>
+                            <td>✓ On Track</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Improvement Suggestions -->
+        <div class="suggestions-section">
+            <h3><i class="fas fa-lightbulb"></i> Improvement Suggestions</h3>
+            
+            <div class="suggestion-item">
+                <div class="suggestion-icon">
+                    <i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i>
+                </div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">Focus on Digital Logic</div>
+                    <div class="suggestion-desc">You need 8 more marks to secure a B grade. Practice past papers.</div>
+                </div>
+            </div>
+
+            <div class="suggestion-item">
+                <div class="suggestion-icon">
+                    <i class="fas fa-clock" style="color: #3b82f6;"></i>
+                </div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">Time Management</div>
+                    <div class="suggestion-desc">Dedicate 2 hours daily for weak subjects to improve grades.</div>
+                </div>
+            </div>
+
+            <div class="suggestion-item">
+                <div class="suggestion-icon">
+                    <i class="fas fa-users" style="color: #10b981;"></i>
+                </div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">Group Study</div>
+                    <div class="suggestion-desc">Join study groups for Digital Logic - peer learning helps!</div>
+                </div>
+            </div>
+
+            <div class="suggestion-item">
+                <div class="suggestion-icon">
+                    <i class="fas fa-file-alt" style="color: #8b5cf6;"></i>
+                </div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">Practice Previous Papers</div>
+                    <div class="suggestion-desc">Solve last 5 years question papers for better preparation.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script>
+        // Update current date
+        function updateDate() {
+            const dateElement = document.getElementById('currentDate');
+            if (dateElement) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const today = new Date().toLocaleDateString('en-US', options);
+                dateElement.innerHTML = `<i class="far fa-calendar-alt"></i> ${today}`;
+            }
+        }
+
+        // Update sidebar with user info from session
+        function updateSidebar() {
+            const userName = sessionStorage.getItem('userName');
+            const userEmail = sessionStorage.getItem('userEmail');
+            
+            if (userName) {
+                document.getElementById('sidebarStudentName').textContent = userName;
+                document.getElementById('sidebarStudentId').textContent = userEmail || 'student@uni.edu';
+            } else {
+                // Fallback to API if session not available
+                fetch('/api/me', { credentials: 'include' })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.loggedIn) {
+                            document.getElementById('sidebarStudentName').textContent = data.user.name;
+                            document.getElementById('sidebarStudentId').textContent = data.user.email;
+                        }
+                    })
+                    .catch(err => console.error('Error fetching user:', err));
+            }
+        }
+
+        // Calculate required marks for target CGPA
+        function calculateRequiredMarks() {
+            const targetInput = document.getElementById('targetCGPA');
+            const target = parseFloat(targetInput.value);
+            
+            if (!target || target < 0 || target > 10) {
+                alert('Please enter a valid target CGPA between 0 and 10');
+                return;
+            }
+
+            const currentCGPA = 8.6; // This would come from API in real app
+            const requiredMarksCard = document.getElementById('requiredMarksCard');
+            
+            // Simple calculation logic
+            const difference = target - currentCGPA;
+            const requiredInternal = Math.min(50, Math.max(0, 35 + (difference * 5)));
+            const requiredExternal = Math.min(100, Math.max(0, 70 + (difference * 10)));
+            const requiredAssignments = Math.min(25, Math.max(0, 20 + (difference * 2)));
+            const requiredPercentage = Math.min(100, Math.max(0, 75 + (difference * 8)));
+
+            document.getElementById('requiredInternal').textContent = Math.round(requiredInternal);
+            document.getElementById('requiredExternal').textContent = Math.round(requiredExternal);
+            document.getElementById('requiredAssignments').textContent = Math.round(requiredAssignments);
+            document.getElementById('requiredPercentage').textContent = Math.round(requiredPercentage) + '%';
+
+            requiredMarksCard.classList.add('show');
+            
+            // Scroll to required marks
+            requiredMarksCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Grade Distribution Chart
+            const gradeCtx = document.getElementById('gradeChart').getContext('2d');
+            new Chart(gradeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['A+ (1)', 'A (2)', 'B+ (2)', 'C (1)'],
+                    datasets: [{
+                        data: [1, 2, 2, 1],
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
+                        borderWidth: 0,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // CGPA Trend Chart
+            const cgpaCtx = document.getElementById('cgpaChart').getContext('2d');
+            new Chart(cgpaCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5', 'Sem 6'],
+                    datasets: [{
+                        label: 'CGPA',
+                        data: [7.8, 8.0, 8.2, 8.4, 8.6, 8.8],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            updateSidebar();
+            initializeCharts();
+        });
+
+        // Make function available globally
+        window.calculateRequiredMarks = calculateRequiredMarks;
+    </script>
+</body>
+</html>
