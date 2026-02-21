@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcademiFlow - Authentication</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    overflow:hidden;
+}
+
+/* Floating background animation */
+body::before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+    top:-100px;
+    left:-100px;
+    animation: float 6s ease-in-out infinite alternate;
+}
+
+@keyframes float{
+    0%{transform:translateY(0px);}
+    100%{transform:translateY(40px);}
+}
+
+.container{
+    width:90%;
+    max-width:950px;
+    min-height:550px;
+    display:flex;
+    border-radius:20px;
+    overflow:hidden;
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.08);
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+    transition:0.5s ease;
+}
+
+/* LEFT PANEL */
+.left{
+    flex:1;
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+    text-align:center;
+    animation: slideLeft 1s ease;
+}
+
+@keyframes slideLeft{
+    from{opacity:0; transform:translateX(-50px);}
+    to{opacity:1; transform:translateX(0);}
+}
+
+.left h1{
+    font-size:36px;
+    margin-bottom:15px;
+}
+
+.left p{
+    font-size:15px;
+    opacity:0.9;
+}
+
+/* RIGHT PANEL */
+.right{
+    flex:1;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:white;
+    animation: slideRight 1s ease;
+}
+
+@keyframes slideRight{
+    from{opacity:0; transform:translateX(50px);}
+    to{opacity:1; transform:translateX(0);}
+}
+
+.right h2{
+    margin-bottom:20px;
+    color:#333;
+}
+
+/* INPUT */
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    font-size:14px;
+    color:#555;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    border-color:#2575fc;
+    box-shadow:0 0 8px rgba(37,117,252,0.3);
+}
+
+/* Name row responsive */
+.name-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.name-row input{
+    flex:1;
+}
+
+/* BUTTON */
+button{
+   padding:12px;
+    border:none;
+    border-radius:8px;
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+    margin-top:10px;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* EXTRA */
+.extra{
+    margin-top:15px;
+    font-size:13px;
+    text-align:center;
+}
+
+.extra a{
+    text-decoration:none;
+    color:#2575fc;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* Fade Animation */
+.fade{
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(0.95);}
+    to{opacity:1; transform:scale(1);}
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .container{
+        flex-direction:column;
+        height:auto;
+    }
+
+    .left{
+        padding:30px;
+    }
+
+    .right{
+        padding:30px;
+    }
+
+    .name-row{
+        flex-direction:column;
+    }
+}
+
+#registerForm{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="left">
+    <h1>AcademiFlow</h1>
+    <p>The Integrated Student Command Center</p>
+    <br>
+    <p>Predict. Organize. Succeed.</p>
+</div>
+
+<div class="right">
+
+<!-- LOGIN -->
+<div id="loginForm" class="fade">
+    <h2>Login</h2>
+
+    <div class="input-group">
+        <label>Select Role</label>
+        <select id="loginRole">
+            <option value="">-- Select Role --</option>
+            <option>Student</option>
+            <option>Faculty</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Email / Id</label>
+        <input type="text" id="loginEmail">
+    </div>
+
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword">
+    </div>
+
+    <button onclick="login()">Login</button>
+
+    <div class="extra">
+        Don't have an account? <a onclick="showRegister()">Register</a>
+    </div>
+</div>
+
+<!-- REGISTER -->
+<div id="registerForm">
+    <h2>Register</h2>
+
+    <div class="input-group">
+        <label>Select Role</label>
+        <select id="regRole">
+            <option value="">-- Select Role --</option>
+            <option>Student</option>
+            <option>Faculty</option>
+        </select>
+    </div>
+
+    <div class="name-row">
+        <input type="text" id="firstName" placeholder="First Name">
+        <input type="text" id="middleName" placeholder="Middle Name">
+        <input type="text" id="lastName" placeholder="Last Name">
+    </div>
+
+    <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="regEmail">
+    </div>
+
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="regPassword">
+    </div>
+
+    <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" id="regConfirm">
+    </div>
+
+    <button onclick="registerUser()">Register</button>
+
+    <div class="extra">
+        Already have an account? <a onclick="showLogin()">Login</a>
+    </div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+function showRegister(){
+    const login = document.getElementById("loginForm");
+    const register = document.getElementById("registerForm");
+
+    login.style.display = "none";
+    register.style.display = "block";
+
+    register.classList.remove("fade");
+    void register.offsetWidth;
+    register.classList.add("fade");
+}
+
+function showLogin(){
+    const login = document.getElementById("loginForm");
+    const register = document.getElementById("registerForm");
+
+    register.style.display = "none";
+    login.style.display = "block";
+
+    login.classList.remove("fade");
+    void login.offsetWidth;
+    login.classList.add("fade");
+}
+
+function login(){
+    const role = document.getElementById("loginRole").value;
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    if(role === "" || email === "" || password === ""){
+        alert("Please fill all fields!");
+        return;
+    }
+
+    alert("Login Successful (Demo)");
+}
+
+function registerUser(){
+    const first = document.getElementById("firstName").value;
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+    const confirm = document.getElementById("regConfirm").value;
+
+    if(first === "" || email === "" || password === "" || confirm === ""){
+        alert("Please fill all fields!");
+        return;
+    }
+
+    if(password !== confirm){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    alert("Registration Successful!");
+
+    // Clear fields
+    document.getElementById("firstName").value = "";
+    document.getElementById("middleName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("regEmail").value = "";
+    document.getElementById("regPassword").value = "";
+    document.getElementById("regConfirm").value = "";
+    document.getElementById("regRole").value = "";
+
+    // Automatically switch back to login
+    setTimeout(() => {
+        showLogin();
+    }, 300);
+}
+
+</script>
+
+</body>
+</html>
