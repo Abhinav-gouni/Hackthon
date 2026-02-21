@@ -646,3 +646,17 @@ tfoot td {
 .form-row button:hover {
     background: #1e40af;
 }
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.delete-btn:hover {
+    background: #991b1b;
+}
