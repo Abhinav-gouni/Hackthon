@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Dashboard</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="attendence-tracker.css">
+</head>
+<body>
+    <!-- SIDEBAR NAVIGATION - Same as Student Dashboard -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-graduation-cap"></i>
+            <div>
+                <h2>EduTrack</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <!-- Student Profile in Sidebar -->
+        <div class="profile-section">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <h4>John Doe</h4>
+                <p>STD2024001</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="student.html" class="nav-link"><i class="fas fa-chart-pie"></i> Student dashboard</a></li>
+            <li class="nav-item"><a href="studattend.html" class="nav-link active"><i class="fas fa-calendar-check"></i> Student attendance</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-pencil-alt"></i> Student assignments</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-trophy"></i> Student cgpa</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-rocket"></i> Student career</a></li>
+        </ul>
+
+        <div class="nav-divider">OVERVIEW</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <i class="fas fa-compass"></i> Attendance Dashboard
+            </div>
+            <div class="date-badge">
+                <i class="far fa-calendar-alt"></i> March 2025
+            </div>
+        </div>
+
+        <!-- Overall Stats Card -->
+        <div class="overall-card">
+            <div class="overall-left">
+                <div class="overall-label">Overall Attendance</div>
+                <div class="overall-percentage">84.4%</div>
+                <div class="overall-status status-good">
+                    <i class="fas fa-check-circle"></i> Above 80% (Can bunk 3)
+                </div>
+            </div>
+            <div class="overall-stats">
+                <div class="stat-item">
+                    <div class="stat-value">330</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">263</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">222</div>
+                    <div class="stat-label">Attended</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">108</div>
+                    <div class="stat-label">Left</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Cards Section -->
+        <h2 class="section-title">
+            <i class="fas fa-book-open"></i> Click on any subject card to view detailed graphs
+        </h2>
+        <!-- ================= ADD SUBJECT FORM ================= -->
+<div class="add-subject-card">
+    <h3><i class="fas fa-plus-circle"></i> Add Subject Attendance</h3>
+
+    <div class="form-row">
+        <input type="text" id="subjectName" placeholder="Subject Name">
+        <input type="number" id="attendedClasses" placeholder="Attended Classes">
+        <input type="number" id="totalClasses" placeholder="Total Classes">
+        <button onclick="addSubject()">Add</button>
+    </div>
+</div>
+        <div class="subject-grid">
+            <!-- Mathematics Card -->
+            <div class="subject-card" onclick='showSubjectGraphs("Mathematics", "#2563eb", [82,85,83,86,84,84.4], [45,42,38,40,35,38], [15,18,22,20,25,22])'>
+                <div class="subject-header">
+                    <div class="subject-icon math-bg">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div>
+                        <div class="subject-name">Mathematics</div>
+                        <div class="subject-code">MTH101</div>
+                    </div>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">60</span></div>
+                    <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">45</span></div>
+                    <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">38</span></div>
+                    <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">15</span></div>
+                </div>
+
+                <div class="progress-info">
+                    <span>84.4%</span>
+                    <span>Target 80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:84.4%"></div>
+                </div>
+
+                <div class="bunk-badge bunk-allowed">
+                    <i class="fas fa-check-circle"></i> Can bunk: 4
+                </div>
+                <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click for graphs</div>
+            </div>
+
+            <!-- Physics Card -->
+            <div class="subject-card" onclick='showSubjectGraphs("Physics", "#7c3aed", [80,82,84,83,82,83.3], [40,38,42,41,39,35], [20,22,18,19,21,25])'>
+                <div class="subject-header">
+                    <div class="subject-icon physics-bg">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div>
+                        <div class="subject-name">Physics</div>
+                        <div class="subject-code">PHY102</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">55</span></div>
+                    <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">42</span></div>
+                    <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">35</span></div>
+                    <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">13</span></div>
+                </div>
+
+                <div class="progress-info">
+                    <span>83.3%</span>
+                    <span>Target 80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:83.3%"></div>
+                </div>
+
+                <div class="bunk-badge bunk-allowed">
+                    <i class="fas fa-check-circle"></i> Can bunk: 3
+                </div>
+                <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click for graphs</div>
+            </div>
+
+            <!-- Computer Science Card -->
+            <div class="subject-card" onclick='showSubjectGraphs("Computer Science", "#059669", [87,88,89,90,89,90.0], [48,47,49,50,48,45], [12,13,11,10,12,15])'>
+                <div class="subject-header">
+                    <div class="subject-icon cs-bg">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div>
+                        <div class="subject-name">Computer Science</div>
+                        <div class="subject-code">CS201</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">65</span></div>
+                    <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">50</span></div>
+                    <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">45</span></div>
+                    <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">15</span></div>
+                </div>
+
+                <div class="progress-info">
+                    <span>90.0%</span>
+                    <span>Target 80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:90%"></div>
+                </div>
+
+                <div class="bunk-badge bunk-allowed">
+                    <i class="fas fa-check-circle"></i> Can bunk: 10
+                </div>
+                <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click for graphs</div>
+            </div>
+
+            <!-- Digital Logic Card -->
+            <div class="subject-card" onclick='showSubjectGraphs("Digital Logic", "#d97706", [78,76,75,74,73,73.7], [35,34,33,32,30,28], [25,26,27,28,30,32])'>
+                <div class="subject-header">
+                    <div class="subject-icon dl-bg">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div>
+                        <div class="subject-name">Digital Logic</div>
+                        <div class="subject-code">DL203</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">50</span></div>
+                    <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">38</span></div>
+                    <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">28</span></div>
+                    <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">12</span></div>
+                </div>
+
+                <div class="progress-info">
+                    <span class="text-danger">73.7%</span>
+                    <span>Target 80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:73.7%; background:#ef4444"></div>
+                </div>
+
+                <div class="bunk-badge bunk-needed">
+                    <i class="fas fa-exclamation-triangle"></i> Need: 4
+                </div>
+                <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click for graphs</div>
+            </div>
+
+            <!-- English Card -->
+            <div class="subject-card" onclick='showSubjectGraphs("English", "#9333ea", [83,84,85,84,86,85.0], [42,41,43,42,44,34], [18,19,17,18,16,26])'>
+                <div class="subject-header">
+                    <div class="subject-icon eng-bg">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div>
+                        <div class="subject-name">English</div>
+                        <div class="subject-code">ENG104</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">45</span></div>
+                    <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">40</span></div>
+                    <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">34</span></div>
+                    <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">5</span></div>
+                </div>
+
+                <div class="progress-info">
+                    <span>85.0%</span>
+                    <span>Target 80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:85%"></div>
+                </div>
+
+                <div class="bunk-badge bunk-allowed">
+                    <i class="fas fa-check-circle"></i> Can bunk: 5
+                </div>
+                <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click for graphs</div>
+            </div>
+
+            <!-- Data Structures Card -->
+            <div class="subject-card" onclick='showSubjectGraphs("Data Structures", "#ea580c", [85,86,87,88,87,87.5], [44,45,46,47,46,42], [16,15,14,13,14,18])'>
+                <div class="subject-header">
+                    <div class="subject-icon ds-bg">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div>
+                        <div class="subject-name">Data Structures</div>
+                        <div class="subject-code">CS205</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">55</span></div>
+                    <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">48</span></div>
+                    <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">42</span></div>
+                    <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">7</span></div>
+                </div>
+
+                <div class="progress-info">
+                    <span>87.5%</span>
+                    <span>Target 80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:87.5%"></div>
+                </div>
+
+                <div class="bunk-badge bunk-allowed">
+                    <i class="fas fa-check-circle"></i> Can bunk: 7
+                </div>
+                <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click for graphs</div>
+            </div>
+        </div>
+
+        <!-- Graphs Container (Shown when card clicked) -->
+        <div class="graphs-container" id="graphsContainer" style="display: none;">
+            <div class="graphs-header">
+                <h2><i class="fas fa-chart-bar"></i> <span id="graphTitle">Subject</span> - Detailed Analysis</h2>
+                <button class="close-btn" onclick="hideGraphs()"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="graphs-row">
+                <!-- Line Chart - Attendance Trend -->
+                <div class="graph-card">
+                    <h3><i class="fas fa-chart-line"></i> Attendance Trend (Last 6 Months)</h3>
+                    <canvas id="lineChart"></canvas>
+                </div>
+                
+                <!-- Bar Chart - Monthly Attendance -->
+                <div class="graph-card">
+                    <h3><i class="fas fa-chart-bar"></i> Monthly Attendance vs Missed</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Summary Stats -->
+            <div class="stats-summary" id="statsSummary">
+                <!-- Will be filled by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Summary Table -->
+        <div class="table-card">
+            <h3><i class="fas fa-table"></i> Attendance Summary</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Total</th>
+                            <th>Comp</th>
+                            <th>Att</th>
+                            <th>Left</th>
+                            <th>%</th>
+                            <th>80% Req</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Mathematics</td><td>60</td><td>45</td><td>38</td><td>15</td><td class="text-success">84.4%</td><td><span class="badge success">Bunk 4</span></td><td><button class="view-btn" onclick='showSubjectGraphs("Mathematics", "#2563eb", [82,85,83,86,84,84.4], [45,42,38,40,35,38], [15,18,22,20,25,22])'>View Graphs</button></td></tr>
+                        <tr><td>Physics</td><td>55</td><td>42</td><td>35</td><td>13</td><td class="text-success">83.3%</td><td><span class="badge success">Bunk 3</span></td><td><button class="view-btn" onclick='showSubjectGraphs("Physics", "#7c3aed", [80,82,84,83,82,83.3], [40,38,42,41,39,35], [20,22,18,19,21,25])'>View Graphs</button></td></tr>
+                        <tr><td>CS</td><td>65</td><td>50</td><td>45</td><td>15</td><td class="text-success">90.0%</td><td><span class="badge success">Bunk 10</span></td><td><button class="view-btn" onclick='showSubjectGraphs("Computer Science", "#059669", [87,88,89,90,89,90.0], [48,47,49,50,48,45], [12,13,11,10,12,15])'>View Graphs</button></td></tr>
+                        <tr><td>DL</td><td>50</td><td>38</td><td>28</td><td>12</td><td class="text-danger">73.7%</td><td><span class="badge danger">Need 4</span></td><td><button class="view-btn" onclick='showSubjectGraphs("Digital Logic", "#d97706", [78,76,75,74,73,73.7], [35,34,33,32,30,28], [25,26,27,28,30,32])'>View Graphs</button></td></tr>
+                        <tr><td>English</td><td>45</td><td>40</td><td>34</td><td>5</td><td class="text-success">85.0%</td><td><span class="badge success">Bunk 5</span></td><td><button class="view-btn" onclick='showSubjectGraphs("English", "#9333ea", [83,84,85,84,86,85.0], [42,41,43,42,44,34], [18,19,17,18,16,26])'>View Graphs</button></td></tr>
+                        <tr><td>DS</td><td>55</td><td>48</td><td>42</td><td>7</td><td class="text-success">87.5%</td><td><span class="badge success">Bunk 7</span></td><td><button class="view-btn" onclick='showSubjectGraphs("Data Structures", "#ea580c", [85,86,87,88,87,87.5], [44,45,46,47,46,42], [16,15,14,13,14,18])'>View Graphs</button></td></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr><td><strong>TOTAL</strong></td><td><strong>330</strong></td><td><strong>263</strong></td><td><strong>222</strong></td><td><strong>108</strong></td><td><strong class="text-success">84.4%</strong></td><td><span class="badge success">Bunk 3</span></td><td></td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <i class="fas fa-info-circle"></i> Click on any subject card or "View Graphs" button to see detailed line and bar charts
+        </div>
+    </main>
+    <script>
+        let lineChart = null;
+        let barChart = null;
+
+        /* ---------- Subject Graphs ---------- */
+        function showSubjectGraphs(subject, color, trendData, attendedData, missedData) {
+
+    let graphLock = false;
+
+    const container = document.getElementById("graphsContainer");
+    if (!container) return;
+
+    container.style.display = "block";
+    document.getElementById("graphTitle").textContent = subject;
+
+    document.getElementById("statsSummary").innerHTML = `
+        <div><strong>${trendData.at(-1)}%</strong> Attendance</div>
+        <div>Avg Attended: ${Math.round(attendedData.reduce((a,b)=>a+b,0)/attendedData.length)}</div>
+        <div>Avg Missed: ${Math.round(missedData.reduce((a,b)=>a+b,0)/missedData.length)}</div>
+    `;
+
+    // Destroy safely
+    if (lineChart) lineChart.destroy();
+    if (barChart) barChart.destroy();
+
+    lineChart = new Chart(document.getElementById("lineChart"), {
+        type: "line",
+        data: {
+            labels: ["Sep","Oct","Nov","Dec","Jan","Feb"],
+            datasets: [{
+                data: trendData,
+                borderColor: color,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: false,
+            resizeDelay: 200
+        }
+    });
+
+    barChart = new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: {
+            labels: ["Sep","Oct","Nov","Dec","Jan","Feb"],
+            datasets: [
+                { label: "Attended", data: attendedData, backgroundColor: color },
+                { label: "Missed", data: missedData, backgroundColor: "#ef4444" }
+            ]
+        },
+        options: {
+            responsive: true,
+            animation: false,
+            resizeDelay: 200
+        }
+    });
+
+    // ✅ allow next click AFTER render
+    setTimeout(() => graphLock = false, 300);
+}
+</script>
+<script>
+document.querySelectorAll("tbody tr").forEach(row => {
+    const percentCell = row.children[5];
+    if (!percentCell) return;
+
+    const value = parseFloat(percentCell.textContent);
+
+    if (value >= 85) {
+        percentCell.style.color = "#059669";
+    } 
+    else if (value >= 75) {
+        percentCell.style.color = "#d97706";
+    } 
+    else {
+        percentCell.style.color = "#dc2626";
+    }
+});
+</script>
+<script>
+
+/* ===============================
+   Predictive Attendance Sentinel
+================================= */
+
+function getStatus(percent){
+    if(percent <= 75) return "red";
+    if(percent <= 79) return "yellow";
+    return "green";
+}
+
+function calculateSafeSkip(attended, total){
+    let x = Math.floor((attended / 0.75) - total);
+    return x >= 0 ? x : 0;
+}
+
+function calculateNeed(attended, total){
+    let needed = Math.ceil((0.75 * total - attended) / 0.25);
+    return needed > 0 ? needed : 0;
+}
+
+function updateCards(){
+
+    document.querySelectorAll(".subject-card").forEach(card => {
+
+        const total = parseInt(card.querySelectorAll(".stat-num")[0].textContent);
+        const completed = parseInt(card.querySelectorAll(".stat-num")[1].textContent);
+        const attended = parseInt(card.querySelectorAll(".stat-num")[2].textContent);
+
+        let percent = (attended / completed) * 100;
+        let status = getStatus(percent);
+
+        card.classList.remove("alert-green","alert-yellow","alert-red");
+        card.classList.add("alert-"+status);
+
+        const badge = card.querySelector(".bunk-badge");
+
+        if(percent >= 75){
+            let safe = calculateSafeSkip(attended, completed);
+            badge.innerHTML = `<i class="fas fa-check-circle"></i> Can bunk: ${safe}`;
+            badge.className = "bunk-badge bunk-allowed";
+        } else {
+            let need = calculateNeed(attended, completed);
+            badge.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Need: ${need}`;
+            badge.className = "bunk-badge bunk-needed";
+        }
+
+        const progress = card.querySelector(".progress-fill");
+        progress.style.width = percent.toFixed(1) + "%";
+
+        if(status === "red") progress.style.background = "#ef4444";
+        else if(status === "yellow") progress.style.background = "#facc15";
+        else progress.style.background = "#22c55e";
+
+        card.querySelector(".progress-info span").textContent = percent.toFixed(1) + "%";
+    });
+}
+
+/* ========== OD Adjustment Engine ========== */
+
+function applyOD(card){
+
+    let od = parseInt(prompt("Enter On-Duty Classes to Add:"));
+
+    if(isNaN(od) || od <= 0) return;
+
+    const attendedEl = card.querySelectorAll(".stat-num")[2];
+    attendedEl.textContent = parseInt(attendedEl.textContent) + od;
+
+    updateCards();
+}
+
+/* Add OD Button Dynamically */
+
+document.querySelectorAll(".subject-card").forEach(card => {
+    let btn = document.createElement("button");
+    btn.textContent = "Add OD";
+    btn.className = "od-btn";
+    btn.onclick = function(e){
+        e.stopPropagation();
+        applyOD(card);
+    };
+    card.appendChild(btn);
+});
+
+/* Initialize */
+updateCards();
+
+</script>
+<script>
+
+/* ================= PREDICTIVE SENTINEL ================= */
+
+function getStatus(percent){
+    if(percent <= 75) return "red";
+    if(percent <= 79) return "yellow";
+    return "green";
+}
+
+function calculateSafeSkip(attended, total){
+    let x = Math.floor((attended / 0.75) - total);
+    return x >= 0 ? x : 0;
+}
+
+function calculateNeed(attended, total){
+    let needed = Math.ceil((0.75 * total - attended) / 0.25);
+    return needed > 0 ? needed : 0;
+}
+
+function addSubject(){
+
+    const name = document.getElementById("subjectName").value;
+    const attended = parseInt(document.getElementById("attendedClasses").value);
+    const total = parseInt(document.getElementById("totalClasses").value);
+
+    if(!name || isNaN(attended) || isNaN(total) || attended > total){
+        alert("Please enter valid data.");
+        return;
+    }
+
+    const percent = (attended/total)*100;
+    const status = getStatus(percent);
+
+    let badgeText = "";
+    let badgeClass = "";
+
+    if(percent >= 75){
+        badgeText = "Can bunk: " + calculateSafeSkip(attended,total);
+        badgeClass = "bunk-allowed";
+    } else {
+        badgeText = "Need: " + calculateNeed(attended,total);
+        badgeClass = "bunk-needed";
+    }
+
+    const grid = document.querySelector(".subject-grid");
+
+    const card = document.createElement("div");
+    card.className = "subject-card alert-" + status;
+
+    card.innerHTML = `
+        <div class="subject-header">
+            <div class="subject-icon math-bg">
+                <i class="fas fa-book"></i>
+            </div>
+            <div>
+                <div class="subject-name">${name}</div>
+                <div class="subject-code">AUTO101</div>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">${total}</span></div>
+            <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">${total}</span></div>
+            <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">${attended}</span></div>
+            <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">0</span></div>
+        </div>
+
+        <div class="progress-info">
+            <span>${percent.toFixed(1)}%</span>
+            <span>Target 75%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width:${percent}%"></div>
+        </div>
+
+        <div class="bunk-badge ${badgeClass}">
+            ${badgeText}
+        </div>
+    `;
+
+    grid.prepend(card);
+
+    document.getElementById("subjectName").value = "";
+    document.getElementById("attendedClasses").value = "";
+    document.getElementById("totalClasses").value = "";
+}
+
+</script>
+</body>
+</html>
