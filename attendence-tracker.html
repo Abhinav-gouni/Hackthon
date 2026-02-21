@@ -571,24 +571,23 @@ function addSubject(){
         return;
     }
 
+    const id = "sub-" + Date.now(); // unique id
+
     const percent = (attended/total)*100;
-    const status = getStatus(percent);
 
-    let badgeText = "";
-    let badgeClass = "";
+    let badgeText = percent >= 75 
+        ? "Bunk " + calculateSafeSkip(attended,total)
+        : "Need " + calculateNeed(attended,total);
 
-    if(percent >= 75){
-        badgeText = "Can bunk: " + calculateSafeSkip(attended,total);
-        badgeClass = "bunk-allowed";
-    } else {
-        badgeText = "Need: " + calculateNeed(attended,total);
-        badgeClass = "bunk-needed";
-    }
+    let badgeClass = percent >= 75 ? "success" : "danger";
+
+    /* ================= CARD ================= */
 
     const grid = document.querySelector(".subject-grid");
 
     const card = document.createElement("div");
-    card.className = "subject-card alert-" + status;
+    card.className = "subject-card";
+    card.setAttribute("data-id", id);
 
     card.innerHTML = `
         <div class="subject-header">
@@ -602,14 +601,14 @@ function addSubject(){
         </div>
 
         <div class="stats-row">
-            <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num">${total}</span></div>
-            <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num">${total}</span></div>
-            <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num">${attended}</span></div>
-            <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num">0</span></div>
+            <div class="stat-box"><span class="stat-label">Total</span><span class="stat-num total">${total}</span></div>
+            <div class="stat-box"><span class="stat-label">Comp</span><span class="stat-num comp">${total}</span></div>
+            <div class="stat-box"><span class="stat-label">Att</span><span class="stat-num att">${attended}</span></div>
+            <div class="stat-box"><span class="stat-label">Left</span><span class="stat-num left">0</span></div>
         </div>
 
         <div class="progress-info">
-            <span>${percent.toFixed(1)}%</span>
+            <span class="percent">${percent.toFixed(1)}%</span>
             <span>Target 75%</span>
         </div>
 
@@ -617,18 +616,86 @@ function addSubject(){
             <div class="progress-fill" style="width:${percent}%"></div>
         </div>
 
-        <div class="bunk-badge ${badgeClass}">
-            ${badgeText}
-        </div>
+        <div class="bunk-badge">${badgeText}</div>
+
+        <button class="delete-btn" onclick="deleteSubject('${id}')">Delete</button>
     `;
 
     grid.prepend(card);
+
+    /* ================= TABLE ================= */
+
+    const tbody = document.querySelector("tbody");
+
+    const row = document.createElement("tr");
+    row.setAttribute("data-id", id);
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td class="total">${total}</td>
+        <td class="comp">${total}</td>
+        <td class="att">${attended}</td>
+        <td class="left">0</td>
+        <td class="percent">${percent.toFixed(1)}%</td>
+        <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+        <td>
+            <button onclick="deleteSubject('${id}')" class="view-btn" style="background:#dc2626;">Delete</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+    updateTotalRow();
 
     document.getElementById("subjectName").value = "";
     document.getElementById("attendedClasses").value = "";
     document.getElementById("totalClasses").value = "";
 }
+function deleteSubject(id){
+
+    if(!confirm("Delete this subject?")) return;
+
+    const card = document.querySelector(`.subject-card[data-id='${id}']`);
+    const row = document.querySelector(`tbody tr[data-id='${id}']`);
+
+    if(card) card.remove();
+    if(row) row.remove();
+
+    updateTotalRow();
+}
+function applyOD(card){
+
+    let od = parseInt(prompt("Enter On-Duty Classes to Add:"));
+
+    if(isNaN(od) || od <= 0) return;
+
+    const id = card.getAttribute("data-id");
+
+    const attEl = card.querySelector(".att");
+    attEl.textContent = parseInt(attEl.textContent) + od;
+
+    syncCardToTable(id);
+
+    updateCards();
+}
+function syncCardToTable(id){
+
+    const card = document.querySelector(`.subject-card[data-id='${id}']`);
+    const row = document.querySelector(`tbody tr[data-id='${id}']`);
+
+    if(!card || !row) return;
+
+    row.querySelector(".att").textContent = card.querySelector(".att").textContent;
+
+    const comp = parseInt(card.querySelector(".comp").textContent);
+    const att = parseInt(card.querySelector(".att").textContent);
+
+    const percent = (att/comp)*100;
+
+    row.querySelector(".percent").textContent = percent.toFixed(1) + "%";
+}
 
 </script>
+
 </body>
 </html>
