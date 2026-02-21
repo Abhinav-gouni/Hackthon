@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | EduTrack</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <!-- Link to external CSS file -->
+    <link href="stud.css" rel="stylesheet">
+</head>
+<body>
+    <!-- SIDEBAR - STUDENT ROUTES -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-graduation-cap"></i>
+            <div>
+                <h2>EduTrack</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <!-- Student Profile in Sidebar -->
+        <div class="sidebar-profile">
+            <div class="profile-image">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name">John Doe</div>
+                <div class="profile-id">STD2024001</div>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-chart-pie"></i> Student dashboard</a></li>
+            <li class="nav-item"><a href="studattend.html" class="nav-link"><i class="fas fa-calendar-check"></i> Student attendance</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-pencil-alt"></i> Student assignments</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-trophy"></i> Student cgpa</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-rocket"></i> Student career</a></li>
+        </ul>
+
+        <div class="nav-divider">Overview</div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <i class="fas fa-compass"></i> Student Dashboard
+            </div>
+            <div class="date-badge">
+                <i class="far fa-calendar-alt"></i> March 2025
+            </div>
+        </div>
+
+        <!-- STUDENT PROFILE CARD -->
+        <div class="profile-card">
+            <div class="profile-card-header">
+                <h2><i class="fas fa-id-card"></i> Student Profile</h2>
+            </div>
+            <div class="profile-card-body">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="profile-details">
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span class="detail-label"><i class="fas fa-user"></i> Name:</span>
+                            <span class="detail-value">John Doe</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label"><i class="fas fa-id-badge"></i> Student ID:</span>
+                            <span class="detail-value">STD2024001</span>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span class="detail-label"><i class="fas fa-phone"></i> Phone:</span>
+                            <span class="detail-value">+1 (555) 123-4567</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
+                            <span class="detail-value">john.doe@university.edu</span>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span class="detail-label"><i class="fas fa-book"></i> Course:</span>
+                            <span class="detail-value">Computer Science Engineering</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label"><i class="fas fa-calendar-alt"></i> Year:</span>
+                            <span class="detail-value">3rd Year (2022-2026)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATISTICS CARDS -->
+        <div class="card-grid">
+            <div class="stat-card">
+                <div class="card-icon"><i class="fas fa-user-check"></i></div>
+                <div class="card-label">Attendance %</div>
+                <div class="card-value">92%</div>
+                <span class="card-trend"><i class="fas fa-arrow-up"></i> 3%</span>
+            </div>
+            <div class="stat-card">
+                <div class="card-icon"><i class="fas fa-star"></i></div>
+                <div class="card-label">CGPA</div>
+                <div class="card-value">8.6</div>
+                <span class="card-trend">target 8.9</span>
+            </div>
+            <div class="stat-card">
+                <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
+                <div class="card-label">Upcoming Assignments</div>
+                <div class="card-value">4</div>
+                <span class="card-trend">2 due this week</span>
+            </div>
+            <div class="stat-card">
+                <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="card-label">Upcoming Holidays</div>
+                <div class="card-value">3</div>
+                <span class="card-trend"><i class="fas fa-umbrella-beach"></i> This Month</span>
+            </div>
+        </div>
+
+        <!-- CHARTS SECTION -->
+        <div class="charts-row">
+            <div class="chart-container">
+                <h3><i class="fas fa-chart-line"></i> Attendance Trend</h3>
+                <canvas id="attendanceChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3><i class="fas fa-chart-bar"></i> Subject-wise Marks</h3>
+                <canvas id="marksChart"></canvas>
+            </div>
+        </div>
+
+        <!-- RECENT ACTIVITIES SECTION -->
+        <div class="activities-section">
+            <h3><i class="fas fa-history"></i> Recent Activities</h3>
+            <div class="activities-list">
+                <div class="activity-item">
+                    <div class="activity-icon"><i class="fas fa-check-circle" style="color:#10b981;"></i></div>
+                    <div class="activity-details">
+                        <div class="activity-title">Assignment Submitted</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon"><i class="fas fa-calendar-check" style="color:#3b82f6;"></i></div>
+                    <div class="activity-details">
+                        <div class="activity-title">Physics Class Attended</div>
+                        <div class="activity-time">Yesterday</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon"><i class="fas fa-trophy" style="color:#f59e0b;"></i></div>
+                    <div class="activity-details">
+                        <div class="activity-title">CGPA Updated to 8.6</div>
+                        <div class="activity-time">3 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Attendance Trend Chart
+        const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(attendanceCtx, {
+            type: 'line',
+            data: {
+                labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
+                datasets: [{
+                    label: 'Attendance %',
+                    data: [88, 90, 89, 92, 91, 92],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Subject-wise Marks Chart
+        const marksCtx = document.getElementById('marksChart').getContext('2d');
+        new Chart(marksCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Math', 'Physics', 'CS', 'DL', 'English'],
+                datasets: [{
+                    label: 'Internal Marks',
+                    data: [45, 42, 48, 38, 44],
+                    backgroundColor: '#3b82f6'
+                }, {
+                    label: 'External Marks',
+                    data: [82, 78, 91, 68, 85],
+                    backgroundColor: '#f59e0b'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } }
+            }
+        });
+
+        // Academic Risk Score Chart
+        const riskCtx = document.getElementById('riskChart').getContext('2d');
+        new Chart(riskCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Risk (18%)', 'Safe (82%)'],
+                datasets: [{
+                    data: [18, 82],
+                    backgroundColor: ['#ef4444', '#3b82f6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    </script>
+</body>
+</html>
